@@ -116,3 +116,109 @@
     
 })(jQuery);
 
+
+                /*** Booking Tbale Form Submit ***/ 
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Select the form and button
+    const reservationForm = document.querySelector("form");
+    const submitButton = reservationForm.querySelector("button[type='submit']");
+
+    reservationForm.addEventListener("submit", async (event) => {
+        event.preventDefault(); // Prevent form default submission
+        
+        // Collect form data
+        const formData = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            datetime: document.getElementById("datetime").value,
+            people: document.getElementById("select1").value,
+            message: document.getElementById("message").value,
+        };
+
+        try {
+            // Disable button to prevent multiple submissions
+            submitButton.disabled = true;
+            submitButton.textContent = "Submitting...";
+
+            // Make API call
+            const response = await fetch("https://api.example.com/reservations", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to submit reservation. Please try again.");
+            }
+
+            const result = await response.json();
+            alert("Reservation submitted successfully!");
+            reservationForm.reset(); // Reset the form after success
+        } catch (error) {
+            console.error("Error submitting reservation:", error);
+            alert("An error occurred while submitting your reservation. Please try again later.");
+        } finally {
+            // Re-enable the button
+            submitButton.disabled = false;
+            submitButton.textContent = "Book Now";
+        }
+    });
+});
+
+                    /*** Contact Form Submit ***/
+
+                    document.addEventListener("DOMContentLoaded", () => {
+                        // Select the form and button
+                        const contactForm = document.querySelector("form");
+                        const submitButton = contactForm.querySelector("button[type='submit']");
+                    
+                        contactForm.addEventListener("submit", async (event) => {
+                            event.preventDefault(); // Prevent form default submission
+                            
+                            // Collect form data
+                            const formData = {
+                                name: document.getElementById("name").value,
+                                email: document.getElementById("email").value,
+                                subject: document.getElementById("subject").value,
+                                message: document.getElementById("message").value,
+                            };
+                    
+                            try {
+                                // Disable button to prevent multiple submissions
+                                submitButton.disabled = true;
+                                submitButton.textContent = "Sending...";
+                    
+                                // Make API call
+                                const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify(formData),
+                                });
+                    
+                                if (!response.ok) {
+                                    throw new Error("Failed to send message. Please try again.");
+                                }
+                    
+                                const result = await response.json();
+                                alert("Message sent successfully!");
+                                console.log("Response from server:", result);
+                    
+                                // Reset the form
+                                contactForm.reset();
+                            } 
+                            catch (error) {
+                                console.error("Error sending message:", error);
+                                alert("An error occurred. Please try again later.");
+                            } 
+                            finally {
+                                // Re-enable the button
+                                submitButton.disabled = false;
+                                submitButton.textContent = "Send Message";
+                            }
+                        });
+                    });
