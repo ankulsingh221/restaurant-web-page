@@ -1,0 +1,17 @@
+# use ubuntu/nginx base image
+FROM ubuntu/nginx:latest
+
+RUN apt-get update && apt-get upgrade -y && apt-get clean
+
+# set the working directory
+WORKDIR /var/www/html
+
+# clear the default nginx html files
+RUN rm -rf ./*
+
+# Copy all your static site files (including CSS, JS, HTML)
+COPY . .
+
+# Expose HTTP port
+EXPOSE 81
+
